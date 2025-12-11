@@ -61,7 +61,6 @@ export default function TabLayout() {
         name="scanner"
         options={{
           title: "Scan",
-          headerTitle: "Scan QR Code",
           tabBarIcon: ({ color, focused }) => (
             <View
               style={{
@@ -95,7 +94,6 @@ export default function TabLayout() {
         name="generator"
         options={{
           title: "Generate",
-          headerTitle: "Generate QR Code",
           tabBarIcon: ({ color, focused }) => (
             <View
               style={{
