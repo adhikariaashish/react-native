@@ -39,27 +39,37 @@ export default function Home() {
 
   return (
     <SafeAreaView className="flex-1 bg-bgDark" edges={["top"]}>
+      {/* Header */}
+      <View className="flex-row items-center px-6 py-4 border-b border-border">
+        <View style={{ width: 36, height: 36, marginRight: 12 }}>
+          <Image
+            source={require("../../assets/images/qr_logo.png")}
+            style={{
+              width: "100%",
+              height: "100%",
+            //   tintColor: "#BB86FC",
+            borderRadius: 11,
+            }}
+            resizeMode="contain"
+          />
+        </View>
+        <Text className="text-2xl font-bold text-textLight">QR Hub</Text>
+      </View>
+
       <ScrollView className="flex-1 bg-bgDark">
         {/* Hero Section */}
-        <View className="items-center pt-8 pb-6 px-6">
-          <View className="items-center mb-6">
-            <View className="bg-primary/20 p-6 rounded-full mb-4">
-              <Image
-                source={require("../../assets/images/qr_logo.png")}
-                style={{ width: 80, height: 80, tintColor: "#BB86FC" }}
-                resizeMode="contain"
-              />
-            </View>
-            <Text className="text-4xl font-bold text-textLight mb-2">
-              QR Hub
-            </Text>
-            <Text className="text-textGray text-center text-base">
-              Your all-in-one QR code solution
-            </Text>
-          </View>
+        <View className="px-6 pt-6 pb-4">
+          <Text className="text-3xl font-bold text-textLight mb-2">
+            Welcome back! 👋
+          </Text>
+          <Text className="text-textGray text-base">
+            Your all-in-one QR code solution
+          </Text>
+        </View>
 
-          {/* Quick Stats */}
-          <View className="flex-row justify-around w-full mb-6">
+        {/* Quick Stats */}
+        <View className="px-6 mb-4">
+          <View className="flex-row justify-around bg-bgCard rounded-2xl p-4 border border-border">
             {stats.map((stat, index) => (
               <View key={index} className="items-center">
                 <Text style={{ fontSize: 32 }}>{stat.value}</Text>

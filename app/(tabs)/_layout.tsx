@@ -1,6 +1,6 @@
 import { Ionicons } from "@expo/vector-icons";
 import { Tabs } from "expo-router";
-import { Image, View } from "react-native";
+import { View } from "react-native";
 
 export default function TabLayout() {
   return (
@@ -33,27 +33,12 @@ export default function TabLayout() {
         name="index"
         options={{
           title: "Home",
-          tabBarIcon: ({ color, focused, size }) => (
-            <View
-              style={{
-                width: 45,
-                height: 45,
-                alignItems: "center",
-                justifyContent: "center",
-                backgroundColor: focused ? "#7A4DFF20" : "transparent",
-                borderRadius: 12,
-              }}
-            >
-              <Image
-                source={require("../../assets/images/qr_logo.png")}
-                style={{
-                  width: 32,
-                  height: 32,
-                  tintColor: color,
-                }}
-                resizeMode="contain"
-              />
-            </View>
+          tabBarIcon: ({ color, focused }) => (
+            <Ionicons
+              name={focused ? "home" : "home-outline"}
+              size={28}
+              color={color}
+            />
           ),
         }}
       />
