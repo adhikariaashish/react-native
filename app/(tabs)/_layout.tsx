@@ -47,32 +47,12 @@ export default function TabLayout() {
         options={{
           title: "Scan",
           tabBarIcon: ({ color, focused }) => (
-            <View
-              style={{
-                width: 65,
-                height: 65,
-                alignItems: "center",
-                justifyContent: "center",
-                backgroundColor: focused ? "#7A4DFF" : "#2A2A2A",
-                borderRadius: 18,
-                marginTop: -20,
-                borderWidth: 4,
-                borderColor: "#1E1E1E",
-                elevation: 8,
-                shadowColor: "#7A4DFF",
-                shadowOffset: { width: 0, height: 4 },
-                shadowOpacity: focused ? 0.5 : 0.2,
-                shadowRadius: 8,
-              }}
-            >
-              <Ionicons
-                name="scan"
-                size={32}
-                color={focused ? "#FFFFFF" : color}
-              />
-            </View>
+            <Ionicons
+              name={focused ? "scan" : "scan-outline"}
+              size={28}
+              color={color}
+            />
           ),
-          tabBarLabel: ({ focused, color }) => null, // Hide label for middle button
         }}
       />
       <Tabs.Screen

@@ -113,6 +113,14 @@ export default function Scanner() {
     setScanned(false);
   };
 
+  const pickImageFromGallery = async () => {
+    Alert.alert(
+      "Feature Not Available",
+      "Gallery upload requires a development build. This feature is not available in Expo Go. You can still use the camera to scan QR codes in real-time!",
+      [{ text: "OK" }]
+    );
+  };
+
   const closeModal = () => {
     setShowModal(false);
     setScanned(false);
@@ -179,6 +187,18 @@ export default function Scanner() {
               </Text>
             </View>
           </View>
+
+          {/* Gallery Button */}
+          <TouchableOpacity
+            className="mt-4 bg-primary rounded-2xl p-4 flex-row items-center justify-center border border-primary"
+            onPress={pickImageFromGallery}
+            activeOpacity={0.7}
+          >
+            <Ionicons name="images-outline" size={24} color="white" />
+            <Text className="text-white font-bold text-lg ml-3">
+              Choose from Gallery
+            </Text>
+          </TouchableOpacity>
 
           {/* Last Result Card */}
           {lastResult && !showModal && (
