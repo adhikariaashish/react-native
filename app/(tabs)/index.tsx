@@ -23,9 +23,9 @@ export default function Home() {
       route: "/(tabs)/scanner",
     },
     {
-      icon: "qr-code",
-      title: "Generate QR",
-      description: "Create custom QR codes",
+      icon: "person",
+      title: "Profile",
+      description: "Manage account & history",
       color: "#BB86FC",
       route: "/(tabs)/generator",
     },
@@ -47,8 +47,8 @@ export default function Home() {
             style={{
               width: "100%",
               height: "100%",
-            //   tintColor: "#BB86FC",
-            borderRadius: 11,
+              //   tintColor: "#BB86FC",
+              borderRadius: 11,
             }}
             resizeMode="contain"
           />
@@ -163,8 +163,8 @@ export default function Home() {
                 </Text>
                 <Text className="text-textGray text-sm leading-5">
                   Tap on &quot;Scan&quot; to scan any QR code with your camera,
-                  or use &quot;Generate&quot; to create your own custom QR codes
-                  for sharing text, URLs, and more.
+                  or visit &quot;Profile&quot; to manage your account and view
+                  your QR code history.
                 </Text>
               </View>
             </View>

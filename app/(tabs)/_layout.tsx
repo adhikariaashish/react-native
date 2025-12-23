@@ -58,7 +58,7 @@ export default function TabLayout() {
       <Tabs.Screen
         name="generator"
         options={{
-          title: "Generate",
+          title: "Profile",
           tabBarIcon: ({ color, focused }) => (
             <View
               style={{
@@ -71,7 +71,7 @@ export default function TabLayout() {
               }}
             >
               <Ionicons
-                name={focused ? "qr-code" : "qr-code-outline"}
+                name={focused ? "person" : "person-outline"}
                 size={28}
                 color={color}
               />
