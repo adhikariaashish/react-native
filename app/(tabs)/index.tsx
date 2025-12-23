@@ -4,9 +4,9 @@ import React from "react";
 import {
   Dimensions,
   Image,
+  Pressable,
   ScrollView,
   Text,
-  TouchableOpacity,
   View,
 } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
@@ -14,160 +14,232 @@ import { SafeAreaView } from "react-native-safe-area-context";
 const { width } = Dimensions.get("window");
 
 export default function Home() {
-  const features = [
-    {
-      icon: "scan",
-      title: "Quick Scan",
-      description: "Scan any QR code instantly",
-      color: "#7A4DFF",
-      route: "/(tabs)/scanner",
-    },
-    {
-      icon: "person",
-      title: "Profile",
-      description: "Manage account & history",
-      color: "#BB86FC",
-      route: "/(tabs)/generator",
-    },
-  ];
-
-  const stats = [
-    { label: "Fast Scanning", value: "⚡", color: "#FFB74D" },
-    { label: "High Quality", value: "✨", color: "#7A4DFF" },
-    { label: "Easy Share", value: "🚀", color: "#66BB6A" },
-  ];
-
   return (
     <SafeAreaView className="flex-1 bg-bgDark" edges={["top"]}>
-      {/* Header */}
-      <View className="flex-row items-center px-6 py-4 border-b border-border">
-        <View style={{ width: 36, height: 36, marginRight: 12 }}>
-          <Image
-            source={require("../../assets/images/qr_logo.png")}
-            style={{
-              width: "100%",
-              height: "100%",
-              //   tintColor: "#BB86FC",
-              borderRadius: 11,
-            }}
-            resizeMode="contain"
-          />
+      {/* Refined Header */}
+      <View className="flex-row items-center justify-between px-6 py-3">
+        <View className="flex-row items-center">
+          <View style={{ width: 32, height: 32, marginRight: 10 }}>
+            <Image
+              source={require("../../assets/images/qr_logo.png")}
+              style={{
+                width: "100%",
+                height: "100%",
+                borderRadius: 9,
+              }}
+              resizeMode="contain"
+            />
+          </View>
+          <View>
+            <Text className="text-xl font-bold text-textLight">QR Hub</Text>
+            <Text className="text-textGray text-xs">
+              Scan. Generate. Share.
+            </Text>
+          </View>
         </View>
-        <Text className="text-2xl font-bold text-textLight">QR Hub</Text>
       </View>
 
-      <ScrollView className="flex-1 bg-bgDark">
-        {/* Hero Section */}
-        <View className="px-6 pt-6 pb-4">
-          <Text className="text-3xl font-bold text-textLight mb-2">
-            Welcome back! 👋
-          </Text>
-          <Text className="text-textGray text-base">
-            Your all-in-one QR code solution
-          </Text>
+      <ScrollView
+        className="flex-1 bg-bgDark"
+        showsVerticalScrollIndicator={false}
+      >
+        {/* Primary Action - Scan QR Code */}
+        <View className="px-6 pt-4 pb-3">
+          <Pressable
+            onPress={() => router.push("/(tabs)/scanner")}
+            style={({ pressed }) => [
+              {
+                transform: [{ scale: pressed ? 0.98 : 1 }],
+                shadowColor: "#7A4DFF",
+                shadowOffset: { width: 0, height: 8 },
+                shadowOpacity: 0.4,
+                shadowRadius: 16,
+                elevation: 8,
+              },
+            ]}
+          >
+            <View
+              className="bg-primary rounded-3xl p-8 items-center"
+              style={{
+                borderWidth: 1,
+                borderColor: "rgba(187, 134, 252, 0.3)",
+              }}
+            >
+              <View
+                className="w-20 h-20 rounded-full items-center justify-center mb-4"
+                style={{ backgroundColor: "rgba(255, 255, 255, 0.15)" }}
+              >
+                <Ionicons name="scan" size={44} color="#FFF" />
+              </View>
+              <Text className="text-white text-2xl font-bold mb-1">
+                Scan QR Code
+              </Text>
+              <Text className="text-white/70 text-sm">
+                Point camera at any QR code
+              </Text>
+            </View>
+          </Pressable>
         </View>
 
-        {/* Quick Stats */}
-        <View className="px-6 mb-4">
-          <View className="flex-row justify-around bg-bgCard rounded-2xl p-4 border border-border">
-            {stats.map((stat, index) => (
-              <View key={index} className="items-center">
-                <Text style={{ fontSize: 32 }}>{stat.value}</Text>
-                <Text className="text-textGray text-xs mt-1">{stat.label}</Text>
+        {/* Secondary Actions */}
+        <View className="px-6 pb-4">
+          <View className="flex-row justify-between">
+            <Pressable
+              onPress={() => router.push("/(tabs)/generator")}
+              style={({ pressed }) => [
+                {
+                  width: (width - 48 - 12) / 2,
+                  transform: [{ scale: pressed ? 0.97 : 1 }],
+                },
+              ]}
+            >
+              <View
+                className="bg-bgCard rounded-2xl p-5 border border-border items-center"
+                style={{
+                  shadowColor: "#000",
+                  shadowOffset: { width: 0, height: 2 },
+                  shadowOpacity: 0.1,
+                  shadowRadius: 4,
+                  elevation: 2,
+                }}
+              >
+                <View
+                  className="w-14 h-14 rounded-xl items-center justify-center mb-3"
+                  style={{ backgroundColor: "#BB86FC20" }}
+                >
+                  <Ionicons name="qr-code" size={28} color="#BB86FC" />
+                </View>
+                <Text className="text-textLight font-bold text-base">
+                  Generate
+                </Text>
               </View>
-            ))}
+            </Pressable>
+
+            <Pressable
+              onPress={() => router.push("/(tabs)/history")}
+              style={({ pressed }) => [
+                {
+                  width: (width - 48 - 12) / 2,
+                  transform: [{ scale: pressed ? 0.97 : 1 }],
+                },
+              ]}
+            >
+              <View
+                className="bg-bgCard rounded-2xl p-5 border border-border items-center"
+                style={{
+                  shadowColor: "#000",
+                  shadowOffset: { width: 0, height: 2 },
+                  shadowOpacity: 0.1,
+                  shadowRadius: 4,
+                  elevation: 2,
+                }}
+              >
+                <View
+                  className="w-14 h-14 rounded-xl items-center justify-center mb-3"
+                  style={{ backgroundColor: "#66BB6A20" }}
+                >
+                  <Ionicons name="time" size={28} color="#66BB6A" />
+                </View>
+                <Text className="text-textLight font-bold text-base">
+                  History
+                </Text>
+              </View>
+            </Pressable>
           </View>
         </View>
 
-        {/* Main Actions */}
-        <View className="px-6 pb-6">
-          <Text className="text-xl font-bold text-textLight mb-4">
-            Get Started
-          </Text>
+        {/* Recent Activity */}
+        <View className="px-6 pb-4">
+          <View className="flex-row items-center justify-between mb-3">
+            <Text className="text-textLight text-lg font-bold">
+              Recent Activity
+            </Text>
+            <Pressable onPress={() => router.push("/(tabs)/history")}>
+              <Text className="text-primary text-sm font-semibold">
+                View All
+              </Text>
+            </Pressable>
+          </View>
 
-          {features.map((feature, index) => (
-            <TouchableOpacity
-              key={index}
-              onPress={() => router.push(feature.route as any)}
-              className="mb-4"
-            >
-              <View className="bg-bgCard rounded-3xl p-6 border border-border">
-                <View className="flex-row items-center">
-                  <View
-                    style={{ backgroundColor: feature.color + "20" }}
-                    className="w-16 h-16 rounded-2xl items-center justify-center mr-4"
-                  >
-                    <Ionicons
-                      name={feature.icon as any}
-                      size={32}
-                      color={feature.color}
-                    />
-                  </View>
-                  <View className="flex-1">
-                    <Text className="text-textLight text-xl font-bold mb-1">
-                      {feature.title}
-                    </Text>
-                    <Text className="text-textGray text-sm">
-                      {feature.description}
-                    </Text>
-                  </View>
-                  <Ionicons name="chevron-forward" size={24} color="#666" />
-                </View>
+          <View
+            className="bg-bgCard rounded-2xl p-6 border border-border"
+            style={{
+              shadowColor: "#000",
+              shadowOffset: { width: 0, height: 1 },
+              shadowOpacity: 0.05,
+              shadowRadius: 2,
+              elevation: 1,
+            }}
+          >
+            <View className="items-center py-4">
+              <View
+                className="w-16 h-16 rounded-full items-center justify-center mb-3"
+                style={{ backgroundColor: "#3A3A3A" }}
+              >
+                <Ionicons name="archive-outline" size={32} color="#666" />
               </View>
-            </TouchableOpacity>
-          ))}
+              <Text className="text-textLight font-semibold mb-1">
+                No Activity Yet
+              </Text>
+              <Text className="text-textGray text-xs text-center">
+                Your scans and QR codes will appear here
+              </Text>
+            </View>
+          </View>
+        </View>
 
-          {/* Features Grid */}
-          <Text className="text-xl font-bold text-textLight mb-4 mt-6">
-            Features
+        {/* Quick Features */}
+        <View className="px-6 pb-6">
+          <Text className="text-textLight text-lg font-bold mb-3">
+            Quick Actions
           </Text>
 
           <View className="flex-row flex-wrap justify-between">
             {[
-              { icon: "camera", label: "HD Scanning", color: "#7A4DFF" },
-              { icon: "copy", label: "Quick Copy", color: "#BB86FC" },
-              { icon: "share-social", label: "Easy Share", color: "#66BB6A" },
-              { icon: "save", label: "Save QR", color: "#FFB74D" },
-              { icon: "link", label: "URL Support", color: "#42A5F5" },
-              { icon: "text", label: "Text QR", color: "#EF5350" },
+              { icon: "camera", label: "HD Scan", color: "#7A4DFF" },
+              { icon: "copy", label: "Copy", color: "#BB86FC" },
+              { icon: "share-social", label: "Share", color: "#66BB6A" },
+              { icon: "save", label: "Save", color: "#FFB74D" },
             ].map((item, index) => (
-              <View
+              <Pressable
                 key={index}
-                className="bg-bgCard rounded-2xl p-4 mb-4 border border-border items-center"
-                style={{ width: (width - 60) / 2 }}
+                style={({ pressed }) => [
+                  {
+                    width: (width - 48) / 2 - 8,
+                    marginBottom: 12,
+                    transform: [{ scale: pressed ? 0.96 : 1 }],
+                  },
+                ]}
               >
                 <View
-                  style={{ backgroundColor: item.color + "20" }}
-                  className="w-12 h-12 rounded-xl items-center justify-center mb-2"
+                  className="bg-bgCard rounded-xl p-4 border border-border"
+                  style={{
+                    height: 68,
+                    shadowColor: "#000",
+                    shadowOffset: { width: 0, height: 1 },
+                    shadowOpacity: 0.05,
+                    shadowRadius: 2,
+                    elevation: 1,
+                  }}
                 >
-                  <Ionicons
-                    name={item.icon as any}
-                    size={24}
-                    color={item.color}
-                  />
+                  <View className="flex-row items-center">
+                    <View
+                      className="w-10 h-10 rounded-lg items-center justify-center mr-3"
+                      style={{ backgroundColor: item.color + "20" }}
+                    >
+                      <Ionicons
+                        name={item.icon as any}
+                        size={20}
+                        color={item.color}
+                      />
+                    </View>
+                    <Text className="text-textLight text-sm font-semibold flex-1">
+                      {item.label}
+                    </Text>
+                  </View>
                 </View>
-                <Text className="text-textLight text-sm font-semibold">
-                  {item.label}
-                </Text>
-              </View>
+              </Pressable>
             ))}
-          </View>
-
-          {/* Info Section */}
-          <View className="bg-primary/10 rounded-2xl p-5 mt-4 border border-primary/30">
-            <View className="flex-row items-start">
-              <Ionicons name="information-circle" size={24} color="#BB86FC" />
-              <View className="flex-1 ml-3">
-                <Text className="text-textLight font-bold text-base mb-1">
-                  How to use
-                </Text>
-                <Text className="text-textGray text-sm leading-5">
-                  Tap on &quot;Scan&quot; to scan any QR code with your camera,
-                  or visit &quot;Profile&quot; to manage your account and view
-                  your QR code history.
-                </Text>
-              </View>
-            </View>
           </View>
         </View>
       </ScrollView>

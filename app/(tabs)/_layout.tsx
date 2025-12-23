@@ -43,12 +43,12 @@ export default function TabLayout() {
         }}
       />
       <Tabs.Screen
-        name="scanner"
+        name="generator"
         options={{
-          title: "Scan",
+          title: "Generate",
           tabBarIcon: ({ color, focused }) => (
             <Ionicons
-              name={focused ? "scan" : "scan-outline"}
+              name={focused ? "qr-code" : "qr-code-outline"}
               size={28}
               color={color}
             />
@@ -56,26 +56,53 @@ export default function TabLayout() {
         }}
       />
       <Tabs.Screen
-        name="generator"
+        name="scanner"
         options={{
-          title: "Profile",
+          title: "Scan",
           tabBarIcon: ({ color, focused }) => (
             <View
               style={{
-                width: 45,
-                height: 45,
+                width: 56,
+                height: 56,
                 alignItems: "center",
                 justifyContent: "center",
-                backgroundColor: focused ? "#7A4DFF20" : "transparent",
-                borderRadius: 12,
+                backgroundColor: focused ? "#7A4DFF" : "#BB86FC",
+                borderRadius: 16,
+                marginBottom: 20,
               }}
             >
               <Ionicons
-                name={focused ? "person" : "person-outline"}
-                size={28}
-                color={color}
+                name={focused ? "scan" : "scan-outline"}
+                size={32}
+                color="#FFF"
               />
             </View>
+          ),
+        }}
+      />
+      <Tabs.Screen
+        name="history"
+        options={{
+          title: "History",
+          tabBarIcon: ({ color, focused }) => (
+            <Ionicons
+              name={focused ? "time" : "time-outline"}
+              size={28}
+              color={color}
+            />
+          ),
+        }}
+      />
+      <Tabs.Screen
+        name="profile"
+        options={{
+          title: "Profile",
+          tabBarIcon: ({ color, focused }) => (
+            <Ionicons
+              name={focused ? "person" : "person-outline"}
+              size={28}
+              color={color}
+            />
           ),
         }}
       />
