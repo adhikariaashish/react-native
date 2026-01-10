@@ -13,13 +13,17 @@ import {
 } from "react-native";
 import QRCode from "react-native-qrcode-svg";
 import { SafeAreaView } from "react-native-safe-area-context";
+import { useAuth } from "../../src/context/AuthContext";
+import { saveGeneratedQR } from "../../src/firebase/qrService";
 
 export default function Generator() {
   const [text, setText] = useState("");
   const [generatedQR, setGeneratedQR] = useState<string | null>(null);
   const [mediaPermission, requestMediaPermission] =
     MediaLibrary.usePermissions();
+  const [isSaving, setIsSaving] = useState(false);
   const qrRef = useRef<any>(null);
+  const { user } = useAuth();
 
   const generateQRCode = () => {
     if (text.trim() === "") {
@@ -27,6 +31,31 @@ export default function Generator() {
       return;
     }
     setGeneratedQR(text);
+  };
+
+  const saveToCloud = async () => {
+    if (!generatedQR) return;
+
+    if (!user) {
+      Alert.alert(
+        "Login Required",
+        "Please login to save QR codes to your history",
+        [{ text: "OK" }]
+      );
+      return;
+    }
+
+    setIsSaving(true);
+    try {
+      await saveGeneratedQR(user.uid, generatedQR);
+      Alert.alert("✅ Saved!", "QR code saved to your history", [
+        { text: "OK" },
+      ]);
+    } catch (error: any) {
+      Alert.alert("Error", error.message || "Failed to save QR code");
+    } finally {
+      setIsSaving(false);
+    }
   };
 
   const copyText = async () => {
@@ -181,6 +210,24 @@ export default function Generator() {
                   <Ionicons name="copy-outline" size={22} color="#BB86FC" />
                   <Text className="text-primary font-bold text-base ml-2">
                     Copy Text
+                  </Text>
+                </TouchableOpacity>
+
+                {/* Save to Cloud Button */}
+                <TouchableOpacity
+                  className={`bg-green-600/20 py-4 rounded-2xl flex-row items-center justify-center border border-green-600 ${
+                    isSaving ? "opacity-60" : ""
+                  }`}
+                  onPress={saveToCloud}
+                  disabled={isSaving}
+                >
+                  <Ionicons
+                    name="cloud-upload-outline"
+                    size={22}
+                    color="#66BB6A"
+                  />
+                  <Text className="text-green-500 font-bold text-base ml-2">
+                    {isSaving ? "Saving..." : "Save to History"}
                   </Text>
                 </TouchableOpacity>
 

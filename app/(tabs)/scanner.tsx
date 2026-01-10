@@ -1,6 +1,7 @@
 import { Ionicons } from "@expo/vector-icons";
 import { CameraView, useCameraPermissions } from "expo-camera";
 import * as Clipboard from "expo-clipboard";
+import * as Haptics from "expo-haptics";
 import React, { useEffect, useState } from "react";
 import {
   Alert,
@@ -14,6 +15,9 @@ import {
   View,
 } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
+import { useAuth } from "../../src/context/AuthContext";
+import { useSettings } from "../../src/context/SettingsContext";
+import { saveScannedQR } from "../../src/firebase/qrService";
 
 export default function Scanner() {
   const [permission, requestPermission] = useCameraPermissions();
@@ -22,6 +26,32 @@ export default function Scanner() {
   const [scanLineAnim] = useState(new Animated.Value(0));
   const [showModal, setShowModal] = useState(false);
   const [isLink, setIsLink] = useState(false);
+  const [isSaving, setIsSaving] = useState(false);
+  const { user } = useAuth();
+  const { vibration, autoSave } = useSettings();
+
+  // Trigger powerful powerful vibration with multiple bursts
+  const triggerVibration = async () => {
+    if (!vibration) return;
+
+    try {
+      // Strong initial impact
+      await Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Heavy);
+
+      // Quick follow-up bursts for more noticeable feedback
+      setTimeout(async () => {
+        await Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Heavy);
+      }, 50);
+
+      setTimeout(async () => {
+        await Haptics.notificationAsync(
+          Haptics.NotificationFeedbackType.Success
+        );
+      }, 120);
+    } catch {
+      console.log("Could not trigger vibration");
+    }
+  };
 
   useEffect(() => {
     // Scanning animation
@@ -76,13 +106,25 @@ export default function Scanner() {
     return urlPattern.test(text);
   };
 
-  const handleBarCodeScanned = ({ data }: { data: string }) => {
+  const handleBarCodeScanned = async ({ data }: { data: string }) => {
     if (scanned) return;
 
     setScanned(true);
     setLastResult(data);
     setIsLink(isURL(data));
     setShowModal(true);
+
+    // Trigger vibration feedback
+    triggerVibration();
+
+    // Auto-save if enabled and user is logged in
+    if (autoSave && user) {
+      try {
+        await saveScannedQR(user.uid, data);
+      } catch (error) {
+        console.log("Auto-save failed:", error);
+      }
+    }
   };
 
   const copyToClipboard = async (text: string) => {
@@ -111,6 +153,31 @@ export default function Scanner() {
     }
 
     setScanned(false);
+  };
+
+  const saveToHistory = async () => {
+    if (!lastResult) return;
+
+    if (!user) {
+      Alert.alert(
+        "Login Required",
+        "Please login to save QR codes to your history",
+        [{ text: "OK" }]
+      );
+      return;
+    }
+
+    setIsSaving(true);
+    try {
+      await saveScannedQR(user.uid, lastResult);
+      Alert.alert("✅ Saved!", "QR code saved to your history", [
+        { text: "OK" },
+      ]);
+    } catch (error: any) {
+      Alert.alert("Error", error.message || "Failed to save QR code");
+    } finally {
+      setIsSaving(false);
+    }
   };
 
   const pickImageFromGallery = async () => {
@@ -290,6 +357,22 @@ export default function Scanner() {
                   </Text>
                 </TouchableOpacity>
               )}
+
+              {/* Save to History Button */}
+              <TouchableOpacity
+                style={[styles.secondaryButton, isSaving && { opacity: 0.6 }]}
+                onPress={saveToHistory}
+                disabled={isSaving}
+              >
+                <Ionicons
+                  name="cloud-upload-outline"
+                  size={20}
+                  color="#BB86FC"
+                />
+                <Text className="text-accent font-semibold ml-2">
+                  {isSaving ? "Saving..." : "Save to History"}
+                </Text>
+              </TouchableOpacity>
 
               <TouchableOpacity style={styles.closeButton} onPress={closeModal}>
                 <Text className="text-textGray font-semibold">Close</Text>
