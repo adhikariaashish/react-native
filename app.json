@@ -19,7 +19,9 @@
         "monochromeImage": "./assets/images/android-icon-monochrome.png"
       },
       "edgeToEdgeEnabled": true,
-      "predictiveBackGestureEnabled": false
+      "predictiveBackGestureEnabled": false,
+      "permissions": ["android.permission.CAMERA"],
+      "package": "com.adhikariaashish.qrscanner"
     },
     "web": {
       "output": "static",
@@ -39,12 +41,23 @@
           }
         }
       ],
-      "expo-barcode-scanner",
+      [
+        "expo-camera",
+        {
+          "cameraPermission": "Allow QR Scanner to access your camera to scan QR codes."
+        }
+      ],
       "expo-web-browser"
     ],
     "experiments": {
       "typedRoutes": true,
       "reactCompiler": true
+    },
+    "extra": {
+      "router": {},
+      "eas": {
+        "projectId": "4b7ce6bf-4863-48ec-8b92-2fe19e784bcf"
+      }
     }
   }
 }
