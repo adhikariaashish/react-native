@@ -149,7 +149,7 @@ const Onboarding = () => {
       {/* Logo at top */}
       <View className="items-center pt-8 pb-4">
         <Image
-          source={require("../assets/images/splash-icon.png")}
+          source={require("../assets/images/qr_logo.png")}
           style={{ width: 60, height: 60, borderRadius: 12 }}
           resizeMode="contain"
         />

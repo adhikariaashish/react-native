@@ -4,7 +4,7 @@
     "slug": "native",
     "version": "1.0.0",
     "orientation": "portrait",
-    "icon": "./assets/images/splash-icon.png",
+    "icon": "./assets/images/qr_logo.png",
     "scheme": "qrhub",
     "userInterfaceStyle": "automatic",
     "newArchEnabled": true,
@@ -13,8 +13,8 @@
     },
     "android": {
       "adaptiveIcon": {
-        "backgroundColor": "#121212",
-        "foregroundImage": "./assets/images/splash-icon.png"
+        "backgroundColor": "#FFFFFF",
+        "foregroundImage": "./assets/images/qr_logo.png"
       },
       "edgeToEdgeEnabled": true,
       "predictiveBackGestureEnabled": false,
@@ -26,20 +26,17 @@
     },
     "web": {
       "output": "static",
-      "favicon": "./assets/images/splash-icon.png"
+      "favicon": "./assets/images/qr_logo.png"
     },
     "plugins": [
       "expo-router",
       [
         "expo-splash-screen",
         {
-          "image": "./assets/images/splash-icon.png",
+          "image": "./assets/images/qr_logo.png",
           "imageWidth": 200,
           "resizeMode": "contain",
-          "backgroundColor": "#121212",
-          "dark": {
-            "backgroundColor": "#121212"
-          }
+          "backgroundColor": "#FFFFFF"
         }
       ],
       [
